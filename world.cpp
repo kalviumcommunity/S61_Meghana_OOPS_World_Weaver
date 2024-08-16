@@ -17,23 +17,23 @@ public:
         : name(n), description(d), date(dt) {}
 
     // Getter Methods
-    string getName() const { return name; }
-    string getDescription() const { return description; }
-    string getDate() const { return date; }
+    string getName() const { return this->name; }
+    string getDescription() const { return this->description; }
+    string getDate() const { return this->date; }
 
     // Setter Methods
-    void setName(string n) { name = n; }
-    void setDescription(string d) { description = d; }
-    void setDate(string dt) { date = dt; }
+    void setName(string n) { this->name = n; }
+    void setDescription(string d) { this->description = d; }
+    void setDate(string dt) { this->date = dt; }
 
     // Input Method
     void input() {
         cout << "Enter historical event name: ";
-        getline(cin, name);
+        getline(cin, this->name);
         cout << "Enter historical event description: ";
-        getline(cin, description);
+        getline(cin, this->description);
         cout << "Enter historical event date: ";
-        getline(cin, date);
+        getline(cin, this->date);
     }
 };
 
@@ -50,24 +50,24 @@ public:
         : name(n), age(a), role(r) {}
 
     // Getter Methods
-    string getName() const { return name; }
-    int getAge() const { return age; }
-    string getRole() const { return role; }
+    string getName() const { return this->name; }
+    int getAge() const { return this->age; }
+    string getRole() const { return this->role; }
 
     // Setter Methods
-    void setName(string n) { name = n; }
-    void setAge(int a) { age = a; }
-    void setRole(string r) { role = r; }
+    void setName(string n) { this->name = n; }
+    void setAge(int a) { this->age = a; }
+    void setRole(string r) { this->role = r; }
 
     // Input Method
     void input() {
         cout << "Enter character name: ";
-        getline(cin, name);
+        getline(cin, this->name);
         cout << "Enter character age: ";
-        cin >> age;
+        cin >> this->age;
         cin.ignore();  // To ignore the newline character left in the buffer
         cout << "Enter character role: ";
-        getline(cin, role);
+        getline(cin, this->role);
     }
 };
 
@@ -84,23 +84,23 @@ public:
         : name(n), traditions(t), language(l) {}
 
     // Getter Methods
-    string getName() const { return name; }
-    string getTraditions() const { return traditions; }
-    string getLanguage() const { return language; }
+    string getName() const { return this->name; }
+    string getTraditions() const { return this->traditions; }
+    string getLanguage() const { return this->language; }
 
     // Setter Methods
-    void setName(string n) { name = n; }
-    void setTraditions(string t) { traditions = t; }
-    void setLanguage(string l) { language = l; }
+    void setName(string n) { this->name = n; }
+    void setTraditions(string t) { this->traditions = t; }
+    void setLanguage(string l) { this->language = l; }
 
     // Input Method
     void input() {
         cout << "Enter culture name: ";
-        getline(cin, name);
+        getline(cin, this->name);
         cout << "Enter culture traditions: ";
-        getline(cin, traditions);
+        getline(cin, this->traditions);
         cout << "Enter culture language: ";
-        getline(cin, language);
+        getline(cin, this->language);
     }
 };
 
@@ -117,23 +117,23 @@ public:
         : name(n), climate(c), terrain(t) {}
 
     // Getter Methods
-    string getName() const { return name; }
-    string getClimate() const { return climate; }
-    string getTerrain() const { return terrain; }
+    string getName() const { return this->name; }
+    string getClimate() const { return this->climate; }
+    string getTerrain() const { return this->terrain; }
 
     // Setter Methods
-    void setName(string n) { name = n; }
-    void setClimate(string c) { climate = c; }
-    void setTerrain(string t) { terrain = t; }
+    void setName(string n) { this->name = n; }
+    void setClimate(string c) { this->climate = c; }
+    void setTerrain(string t) { this->terrain = t; }
 
     // Input Method
     void input() {
         cout << "Enter geographical location name: ";
-        getline(cin, name);
+        getline(cin, this->name);
         cout << "Enter geographical location climate: ";
-        getline(cin, climate);
+        getline(cin, this->climate);
         cout << "Enter geographical location terrain: ";
-        getline(cin, terrain);
+        getline(cin, this->terrain);
     }
 };
 
@@ -147,41 +147,41 @@ private:
 
 public:
     // Add Event
-    void addEvent(const HistoricalEvent& e) { events.push_back(e); }
+    void addEvent(const HistoricalEvent& e) { this->events.push_back(e); }
 
     // Add Character
-    void addCharacter(const Character& c) { characters.push_back(c); }
+    void addCharacter(const Character& c) { this->characters.push_back(c); }
 
     // Add Culture
-    void addCulture(const Culture& c) { cultures.push_back(c); }
+    void addCulture(const Culture& c) { this->cultures.push_back(c); }
 
     // Add Location
-    void addLocation(const GeographicalLocation& l) { locations.push_back(l); }
+    void addLocation(const GeographicalLocation& l) { this->locations.push_back(l); }
 
     // Display Events
     void displayEvents() const {
-        for (const auto& e : events) {
+        for (const auto& e : this->events) {
             cout << "Event: " << e.getName() << " - " << e.getDescription() << " on " << e.getDate() << endl;
         }
     }
 
     // Display Characters
     void displayCharacters() const {
-        for (const auto& c : characters) {
+        for (const auto& c : this->characters) {
             cout << "Character: " << c.getName() << ", Age: " << c.getAge() << ", Role: " << c.getRole() << endl;
         }
     }
 
     // Display Cultures
     void displayCultures() const {
-        for (const auto& c : cultures) {
+        for (const auto& c : this->cultures) {
             cout << "Culture: " << c.getName() << ", Traditions: " << c.getTraditions() << ", Language: " << c.getLanguage() << endl;
         }
     }
 
     // Display Locations
     void displayLocations() const {
-        for (const auto& l : locations) {
+        for (const auto& l : this->locations) {
             cout << "Location: " << l.getName() << ", Climate: " << l.getClimate() << ", Terrain: " << l.getTerrain() << endl;
         }
     }
