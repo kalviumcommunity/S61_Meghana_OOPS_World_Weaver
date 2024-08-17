@@ -1,10 +1,8 @@
 #include <iostream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
-// HistoricalEvent Class
 class HistoricalEvent {
 private:
     string name;
@@ -12,32 +10,27 @@ private:
     string date;
 
 public:
-    // Constructor
     HistoricalEvent(string n = "", string d = "", string dt = "")
         : name(n), description(d), date(dt) {}
 
-    // Getter Methods
-    string getName() const { return this->name; }
-    string getDescription() const { return this->description; }
-    string getDate() const { return this->date; }
+    string getName() const { return name; }
+    string getDescription() const { return description; }
+    string getDate() const { return date; }
 
-    // Setter Methods
-    void setName(string n) { this->name = n; }
-    void setDescription(string d) { this->description = d; }
-    void setDate(string dt) { this->date = dt; }
+    void setName(string n) { name = n; }
+    void setDescription(string d) { description = d; }
+    void setDate(string dt) { date = dt; }
 
-    // Input Method
     void input() {
         cout << "Enter historical event name: ";
-        getline(cin, this->name);
+        getline(cin, name);
         cout << "Enter historical event description: ";
-        getline(cin, this->description);
+        getline(cin, description);
         cout << "Enter historical event date: ";
-        getline(cin, this->date);
+        getline(cin, date);
     }
 };
 
-// Character Class
 class Character {
 private:
     string name;
@@ -45,33 +38,28 @@ private:
     string role;
 
 public:
-    // Constructor
     Character(string n = "", int a = 0, string r = "")
         : name(n), age(a), role(r) {}
 
-    // Getter Methods
-    string getName() const { return this->name; }
-    int getAge() const { return this->age; }
-    string getRole() const { return this->role; }
+    string getName() const { return name; }
+    int getAge() const { return age; }
+    string getRole() const { return role; }
 
-    // Setter Methods
-    void setName(string n) { this->name = n; }
-    void setAge(int a) { this->age = a; }
-    void setRole(string r) { this->role = r; }
+    void setName(string n) { name = n; }
+    void setAge(int a) { age = a; }
+    void setRole(string r) { role = r; }
 
-    // Input Method
     void input() {
         cout << "Enter character name: ";
-        getline(cin, this->name);
+        getline(cin, name);
         cout << "Enter character age: ";
-        cin >> this->age;
-        cin.ignore();  // To ignore the newline character left in the buffer
+        cin >> age;
+        cin.ignore();  
         cout << "Enter character role: ";
-        getline(cin, this->role);
+        getline(cin, role);
     }
 };
 
-// Culture Class
 class Culture {
 private:
     string name;
@@ -79,32 +67,27 @@ private:
     string language;
 
 public:
-    // Constructor
     Culture(string n = "", string t = "", string l = "")
         : name(n), traditions(t), language(l) {}
 
-    // Getter Methods
-    string getName() const { return this->name; }
-    string getTraditions() const { return this->traditions; }
-    string getLanguage() const { return this->language; }
+    string getName() const { return name; }
+    string getTraditions() const { return traditions; }
+    string getLanguage() const { return language; }
 
-    // Setter Methods
-    void setName(string n) { this->name = n; }
-    void setTraditions(string t) { this->traditions = t; }
-    void setLanguage(string l) { this->language = l; }
+    void setName(string n) { name = n; }
+    void setTraditions(string t) { traditions = t; }
+    void setLanguage(string l) { language = l; }
 
-    // Input Method
     void input() {
         cout << "Enter culture name: ";
-        getline(cin, this->name);
+        getline(cin, name);
         cout << "Enter culture traditions: ";
-        getline(cin, this->traditions);
+        getline(cin, traditions);
         cout << "Enter culture language: ";
-        getline(cin, this->language);
+        getline(cin, language);
     }
 };
 
-// GeographicalLocation Class
 class GeographicalLocation {
 private:
     string name;
@@ -112,77 +95,86 @@ private:
     string terrain;
 
 public:
-    // Constructor
     GeographicalLocation(string n = "", string c = "", string t = "")
         : name(n), climate(c), terrain(t) {}
 
-    // Getter Methods
-    string getName() const { return this->name; }
-    string getClimate() const { return this->climate; }
-    string getTerrain() const { return this->terrain; }
+    string getName() const { return name; }
+    string getClimate() const { return climate; }
+    string getTerrain() const { return terrain; }
 
-    // Setter Methods
-    void setName(string n) { this->name = n; }
-    void setClimate(string c) { this->climate = c; }
-    void setTerrain(string t) { this->terrain = t; }
+    void setName(string n) { name = n; }
+    void setClimate(string c) { climate = c; }
+    void setTerrain(string t) { terrain = t; }
 
-    // Input Method
     void input() {
         cout << "Enter geographical location name: ";
-        getline(cin, this->name);
+        getline(cin, name);
         cout << "Enter geographical location climate: ";
-        getline(cin, this->climate);
+        getline(cin, climate);
         cout << "Enter geographical location terrain: ";
-        getline(cin, this->terrain);
+        getline(cin, terrain);
     }
 };
 
-// World Class
 class World {
 private:
-    vector<HistoricalEvent> events;
-    vector<Character> characters;
-    vector<Culture> cultures;
-    vector<GeographicalLocation> locations;
+    static const int MAX_SIZE = 100;  // Maximum size of arrays
+    HistoricalEvent events[MAX_SIZE];  // Array to store historical events
+    Character characters[MAX_SIZE];    
+    Culture cultures[MAX_SIZE];        
+    GeographicalLocation locations[MAX_SIZE]; 
+
+    int eventCount = 0;
+    int characterCount = 0;
+    int cultureCount = 0;
+    int locationCount = 0;
 
 public:
-    // Add Event
-    void addEvent(const HistoricalEvent& e) { this->events.push_back(e); }
+    void addEvent(const HistoricalEvent& e) { 
+        if (eventCount < MAX_SIZE) {
+            events[eventCount++] = e; 
+        }
+    }
 
-    // Add Character
-    void addCharacter(const Character& c) { this->characters.push_back(c); }
+    void addCharacter(const Character& c) { 
+        if (characterCount < MAX_SIZE) {
+            characters[characterCount++] = c; 
+        }
+    }
 
-    // Add Culture
-    void addCulture(const Culture& c) { this->cultures.push_back(c); }
+    void addCulture(const Culture& c) { 
+        if (cultureCount < MAX_SIZE) {
+            cultures[cultureCount++] = c; 
+        }
+    }
 
-    // Add Location
-    void addLocation(const GeographicalLocation& l) { this->locations.push_back(l); }
+    void addLocation(const GeographicalLocation& l) { 
+        if (locationCount < MAX_SIZE) {
+            locations[locationCount++] = l; 
+        }
+    }
 
-    // Display Events
     void displayEvents() const {
-        for (const auto& e : this->events) {
-            cout << "Event: " << e.getName() << " - " << e.getDescription() << " on " << e.getDate() << endl;
+        for (int i = 0; i < eventCount; ++i) {
+            cout << "Event: " << events[i].getName() << " - " << events[i].getDescription() << " on " << events[i].getDate() << endl;
         }
     }
 
-    // Display Characters
     void displayCharacters() const {
-        for (const auto& c : this->characters) {
-            cout << "Character: " << c.getName() << ", Age: " << c.getAge() << ", Role: " << c.getRole() << endl;
+        for (int i = 0; i < characterCount; ++i) {
+            cout << "Character: " << characters[i].getName() << ", Age: " << characters[i].getAge() << ", Role: " << characters[i].getRole() << endl;
         }
     }
 
-    // Display Cultures
     void displayCultures() const {
-        for (const auto& c : this->cultures) {
-            cout << "Culture: " << c.getName() << ", Traditions: " << c.getTraditions() << ", Language: " << c.getLanguage() << endl;
+        for (int i = 0; i < cultureCount; ++i) {
+            cout << "Culture: " << cultures[i].getName() << ", Traditions: " << cultures[i].getTraditions() << ", Language: " << cultures[i].getLanguage() << endl;
         }
     }
 
-    // Display Locations
     void displayLocations() const {
-        for (const auto& l : this->locations) {
-            cout << "Location: " << l.getName() << ", Climate: " << l.getClimate() << ", Terrain: " << l.getTerrain() << endl;
+        for (int i = 0; i < locationCount; ++i) {
+            cout << "Location: " << locations[i].getName() << ", Climate: " << locations[i].getClimate() << ", Terrain: " << locations[i].getTerrain() << endl;
         }
     }
 };
@@ -192,10 +184,9 @@ int main() {
 
     int numEvents, numCharacters, numCultures, numLocations;
 
-    // Input number of historical events
     cout << "Enter the number of historical events: ";
     cin >> numEvents;
-    cin.ignore();  // To ignore the newline character left in the buffer
+    cin.ignore(); 
     for (int i = 0; i < numEvents; ++i) {
         HistoricalEvent event;
         cout << "Enter details for historical event " << (i + 1) << ":" << endl;
@@ -203,10 +194,9 @@ int main() {
         middleEarth.addEvent(event);
     }
 
-    // Input number of characters
     cout << "Enter the number of characters: ";
     cin >> numCharacters;
-    cin.ignore();  // To ignore the newline character left in the buffer
+    cin.ignore(); 
     for (int i = 0; i < numCharacters; ++i) {
         Character character;
         cout << "Enter details for character " << (i + 1) << ":" << endl;
@@ -214,10 +204,9 @@ int main() {
         middleEarth.addCharacter(character);
     }
 
-    // Input number of cultures
     cout << "Enter the number of cultures: ";
     cin >> numCultures;
-    cin.ignore();  // To ignore the newline character left in the buffer
+    cin.ignore(); 
     for (int i = 0; i < numCultures; ++i) {
         Culture culture;
         cout << "Enter details for culture " << (i + 1) << ":" << endl;
@@ -225,10 +214,9 @@ int main() {
         middleEarth.addCulture(culture);
     }
 
-    // Input number of geographical locations
     cout << "Enter the number of geographical locations: ";
     cin >> numLocations;
-    cin.ignore();  // To ignore the newline character left in the buffer
+    cin.ignore();  
     for (int i = 0; i < numLocations; ++i) {
         GeographicalLocation location;
         cout << "Enter details for geographical location " << (i + 1) << ":" << endl;
@@ -236,7 +224,6 @@ int main() {
         middleEarth.addLocation(location);
     }
 
-    // Display all information
     cout << "\nEvents:" << endl;
     middleEarth.displayEvents();
     cout << "\nCharacters:" << endl;
