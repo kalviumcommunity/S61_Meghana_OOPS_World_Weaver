@@ -118,40 +118,86 @@ public:
 
 class World {
 private:
-    static const int MAX_SIZE = 100;  // Maximum size of arrays
-    HistoricalEvent events[MAX_SIZE];  // Array to store historical events
-    Character characters[MAX_SIZE];    
-    Culture cultures[MAX_SIZE];        
-    GeographicalLocation locations[MAX_SIZE]; 
+    HistoricalEvent* events;
+    Character* characters;
+    Culture* cultures;
+    GeographicalLocation* locations;
 
     int eventCount = 0;
     int characterCount = 0;
     int cultureCount = 0;
     int locationCount = 0;
 
+    int capacityEvents = 10;  // Initial capacity
+    int capacityCharacters = 10;
+    int capacityCultures = 10;
+    int capacityLocations = 10;
+
 public:
-    void addEvent(const HistoricalEvent& e) { 
-        if (eventCount < MAX_SIZE) {
-            events[eventCount++] = e; 
-        }
+    World() {
+        events = new HistoricalEvent[capacityEvents];
+        characters = new Character[capacityCharacters];
+        cultures = new Culture[capacityCultures];
+        locations = new GeographicalLocation[capacityLocations];
     }
 
-    void addCharacter(const Character& c) { 
-        if (characterCount < MAX_SIZE) {
-            characters[characterCount++] = c; 
-        }
+    ~World() {
+        delete[] events;
+        delete[] characters;
+        delete[] cultures;
+        delete[] locations;
     }
 
-    void addCulture(const Culture& c) { 
-        if (cultureCount < MAX_SIZE) {
-            cultures[cultureCount++] = c; 
+    void addEvent(const HistoricalEvent& e) {
+        if (eventCount == capacityEvents) {
+            capacityEvents *= 2;
+            HistoricalEvent* newEvents = new HistoricalEvent[capacityEvents];
+            for (int i = 0; i < eventCount; ++i) {
+                newEvents[i] = events[i];
+            }
+            delete[] events;
+            events = newEvents;
         }
+        events[eventCount++] = e;
     }
 
-    void addLocation(const GeographicalLocation& l) { 
-        if (locationCount < MAX_SIZE) {
-            locations[locationCount++] = l; 
+    void addCharacter(const Character& c) {
+        if (characterCount == capacityCharacters) {
+            capacityCharacters *= 2;
+            Character* newCharacters = new Character[capacityCharacters];
+            for (int i = 0; i < characterCount; ++i) {
+                newCharacters[i] = characters[i];
+            }
+            delete[] characters;
+            characters = newCharacters;
         }
+        characters[characterCount++] = c;
+    }
+
+    void addCulture(const Culture& c) {
+        if (cultureCount == capacityCultures) {
+            capacityCultures *= 2;
+            Culture* newCultures = new Culture[capacityCultures];
+            for (int i = 0; i < cultureCount; ++i) {
+                newCultures[i] = cultures[i];
+            }
+            delete[] cultures;
+            cultures = newCultures;
+        }
+        cultures[cultureCount++] = c;
+    }
+
+    void addLocation(const GeographicalLocation& l) {
+        if (locationCount == capacityLocations) {
+            capacityLocations *= 2;
+            GeographicalLocation* newLocations = new GeographicalLocation[capacityLocations];
+            for (int i = 0; i < locationCount; ++i) {
+                newLocations[i] = locations[i];
+            }
+            delete[] locations;
+            locations = newLocations;
+        }
+        locations[locationCount++] = l;
     }
 
     void displayEvents() const {
