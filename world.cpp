@@ -128,10 +128,15 @@ private:
     int cultureCount = 0;
     int locationCount = 0;
 
-    int capacityEvents = 10;  // Initial capacity
+    int capacityEvents = 10;  
     int capacityCharacters = 10;
     int capacityCultures = 10;
     int capacityLocations = 10;
+
+    static int totalEvents;
+    static int totalCharacters;
+    static int totalCultures;
+    static int totalLocations;
 
 public:
     World() {
@@ -159,7 +164,7 @@ public:
             events = newEvents;
         }
         events[eventCount++] = e;
-    }
+        totalEvents++;  }
 
     void addCharacter(const Character& c) {
         if (characterCount == capacityCharacters) {
@@ -172,6 +177,7 @@ public:
             characters = newCharacters;
         }
         characters[characterCount++] = c;
+        totalCharacters++;  
     }
 
     void addCulture(const Culture& c) {
@@ -185,6 +191,7 @@ public:
             cultures = newCultures;
         }
         cultures[cultureCount++] = c;
+        totalCultures++; 
     }
 
     void addLocation(const GeographicalLocation& l) {
@@ -198,6 +205,7 @@ public:
             locations = newLocations;
         }
         locations[locationCount++] = l;
+        totalLocations++;  
     }
 
     void displayEvents() const {
@@ -223,7 +231,17 @@ public:
             cout << "Location: " << locations[i].getName() << ", Climate: " << locations[i].getClimate() << ", Terrain: " << locations[i].getTerrain() << endl;
         }
     }
+
+    static int getTotalEvents() { return totalEvents; }
+    static int getTotalCharacters() { return totalCharacters; }
+    static int getTotalCultures() { return totalCultures; }
+    static int getTotalLocations() { return totalLocations; }
 };
+
+int World::totalEvents = 0;
+int World::totalCharacters = 0;
+int World::totalCultures = 0;
+int World::totalLocations = 0;
 
 int main() {
     World middleEarth;
@@ -278,6 +296,11 @@ int main() {
     middleEarth.displayCultures();
     cout << "\nLocations:" << endl;
     middleEarth.displayLocations();
+
+    cout << "\nTotal historical events added: " << World::getTotalEvents() << endl;
+    cout << "Total characters added: " << World::getTotalCharacters() << endl;
+    cout << "Total cultures added: " << World::getTotalCultures() << endl;
+    cout << "Total geographical locations added: " << World::getTotalLocations() << endl;
 
     return 0;
 }
