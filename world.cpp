@@ -164,7 +164,8 @@ public:
             events = newEvents;
         }
         events[eventCount++] = e;
-        totalEvents++;  }
+        totalEvents++;  
+    }
 
     void addCharacter(const Character& c) {
         if (characterCount == capacityCharacters) {
@@ -191,7 +192,7 @@ public:
             cultures = newCultures;
         }
         cultures[cultureCount++] = c;
-        totalCultures++; 
+        totalCultures++;  
     }
 
     void addLocation(const GeographicalLocation& l) {
@@ -205,7 +206,7 @@ public:
             locations = newLocations;
         }
         locations[locationCount++] = l;
-        totalLocations++;  
+        totalLocations++;
     }
 
     void displayEvents() const {
