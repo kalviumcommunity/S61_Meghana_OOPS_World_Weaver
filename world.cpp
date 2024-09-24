@@ -116,6 +116,7 @@ public:
     }
 };
 
+// Added ABSTRACTION
 class World {
 private:
     HistoricalEvent* events;
