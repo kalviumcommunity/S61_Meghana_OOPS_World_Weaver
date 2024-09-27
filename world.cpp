@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 class HistoricalEvent {
 private:
     string name;
@@ -10,6 +11,7 @@ private:
     string date;
 
 public:
+    //Constructor
     HistoricalEvent(string n = "", string d = "", string dt = "")
         : name(n), description(d), date(dt) {}
 
@@ -140,13 +142,16 @@ private:
     static int totalLocations;
 
 public:
+
+    //Constructor
     World() {
         events = new HistoricalEvent[capacityEvents];
         characters = new Character[capacityCharacters];
         cultures = new Culture[capacityCultures];
         locations = new GeographicalLocation[capacityLocations];
     }
-
+    
+    //Destructor
     ~World() {
         delete[] events;
         delete[] characters;
