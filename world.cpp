@@ -3,26 +3,28 @@
 
 using namespace std;
 
-
 class HistoricalEvent {
 private:
-    string name;
-    string description;
-    string date;
+    string name;        // Event name
+    string description; // Event description
+    string date;        // Event date
 
 public:
-    //Constructor
+    // Constructor
     HistoricalEvent(string n = "", string d = "", string dt = "")
         : name(n), description(d), date(dt) {}
 
+    // Accessor methods (getters)
     string getName() const { return name; }
     string getDescription() const { return description; }
     string getDate() const { return date; }
 
+    // Mutator methods (setters)
     void setName(string n) { name = n; }
     void setDescription(string d) { description = d; }
     void setDate(string dt) { date = dt; }
 
+    // Method to input event details
     void input() {
         cout << "Enter historical event name: ";
         getline(cin, name);
@@ -35,28 +37,32 @@ public:
 
 class Character {
 private:
-    string name;
-    int age;
-    string role;
+    string name; // Character name
+    int age;     // Character age
+    string role; // Character role
 
 public:
+    // Constructor
     Character(string n = "", int a = 0, string r = "")
         : name(n), age(a), role(r) {}
 
+    // Accessor methods (getters)
     string getName() const { return name; }
     int getAge() const { return age; }
     string getRole() const { return role; }
 
+    // Mutator methods (setters)
     void setName(string n) { name = n; }
     void setAge(int a) { age = a; }
     void setRole(string r) { role = r; }
 
+    // Method to input character details
     void input() {
         cout << "Enter character name: ";
         getline(cin, name);
         cout << "Enter character age: ";
         cin >> age;
-        cin.ignore();  
+        cin.ignore();  // Clear the newline from the input buffer
         cout << "Enter character role: ";
         getline(cin, role);
     }
@@ -64,22 +70,26 @@ public:
 
 class Culture {
 private:
-    string name;
-    string traditions;
-    string language;
+    string name;      // Culture name
+    string traditions; // Culture traditions
+    string language;  // Culture language
 
 public:
+    // Constructor
     Culture(string n = "", string t = "", string l = "")
         : name(n), traditions(t), language(l) {}
 
+    // Accessor methods (getters)
     string getName() const { return name; }
     string getTraditions() const { return traditions; }
     string getLanguage() const { return language; }
 
+    // Mutator methods (setters)
     void setName(string n) { name = n; }
     void setTraditions(string t) { traditions = t; }
     void setLanguage(string l) { language = l; }
 
+    // Method to input culture details
     void input() {
         cout << "Enter culture name: ";
         getline(cin, name);
@@ -92,22 +102,26 @@ public:
 
 class GeographicalLocation {
 private:
-    string name;
-    string climate;
-    string terrain;
+    string name;   // Location name
+    string climate; // Climate of the location
+    string terrain; // Terrain of the location
 
 public:
+    // Constructor
     GeographicalLocation(string n = "", string c = "", string t = "")
         : name(n), climate(c), terrain(t) {}
 
+    // Accessor methods (getters)
     string getName() const { return name; }
     string getClimate() const { return climate; }
     string getTerrain() const { return terrain; }
 
+    // Mutator methods (setters)
     void setName(string n) { name = n; }
     void setClimate(string c) { climate = c; }
     void setTerrain(string t) { terrain = t; }
 
+    // Method to input location details
     void input() {
         cout << "Enter geographical location name: ";
         getline(cin, name);
@@ -118,7 +132,6 @@ public:
     }
 };
 
-// Added ABSTRACTION
 class World {
 private:
     HistoricalEvent* events;
@@ -142,8 +155,7 @@ private:
     static int totalLocations;
 
 public:
-
-    //Constructor
+    // Constructor
     World() {
         events = new HistoricalEvent[capacityEvents];
         characters = new Character[capacityCharacters];
@@ -151,7 +163,7 @@ public:
         locations = new GeographicalLocation[capacityLocations];
     }
     
-    //Destructor
+    // Destructor
     ~World() {
         delete[] events;
         delete[] characters;
@@ -217,25 +229,33 @@ public:
 
     void displayEvents() const {
         for (int i = 0; i < eventCount; ++i) {
-            cout << "Event: " << events[i].getName() << " - " << events[i].getDescription() << " on " << events[i].getDate() << endl;
+            cout << "Event: " << events[i].getName() << " - " 
+                 << events[i].getDescription() << " on " 
+                 << events[i].getDate() << endl;
         }
     }
 
     void displayCharacters() const {
         for (int i = 0; i < characterCount; ++i) {
-            cout << "Character: " << characters[i].getName() << ", Age: " << characters[i].getAge() << ", Role: " << characters[i].getRole() << endl;
+            cout << "Character: " << characters[i].getName() << ", Age: " 
+                 << characters[i].getAge() << ", Role: " 
+                 << characters[i].getRole() << endl;
         }
     }
 
     void displayCultures() const {
         for (int i = 0; i < cultureCount; ++i) {
-            cout << "Culture: " << cultures[i].getName() << ", Traditions: " << cultures[i].getTraditions() << ", Language: " << cultures[i].getLanguage() << endl;
+            cout << "Culture: " << cultures[i].getName() << ", Traditions: " 
+                 << cultures[i].getTraditions() << ", Language: " 
+                 << cultures[i].getLanguage() << endl;
         }
     }
 
     void displayLocations() const {
         for (int i = 0; i < locationCount; ++i) {
-            cout << "Location: " << locations[i].getName() << ", Climate: " << locations[i].getClimate() << ", Terrain: " << locations[i].getTerrain() << endl;
+            cout << "Location: " << locations[i].getName() << ", Climate: " 
+                 << locations[i].getClimate() << ", Terrain: " 
+                 << locations[i].getTerrain() << endl;
         }
     }
 
@@ -245,6 +265,7 @@ public:
     static int getTotalLocations() { return totalLocations; }
 };
 
+// Initialize static variables
 int World::totalEvents = 0;
 int World::totalCharacters = 0;
 int World::totalCultures = 0;
