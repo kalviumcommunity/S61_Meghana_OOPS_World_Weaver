@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Abstract class: HistoricalEntity
 class HistoricalEntity {
 public:
     virtual void input() = 0; // Pure virtual function
@@ -11,6 +12,7 @@ public:
     virtual ~HistoricalEntity() = default; // Virtual destructor
 };
 
+// Derived class: HistoricalEvent
 class HistoricalEvent : public HistoricalEntity {
 private:
     string name;
@@ -21,7 +23,7 @@ public:
     HistoricalEvent(string n = "", string d = "", string dt = "")
         : name(n), description(d), date(dt) {}
 
-    void input() override {
+    void input() override { // Implementing the pure virtual function
         cout << "Enter historical event name: ";
         getline(cin, name);
         cout << "Enter historical event description: ";
@@ -30,11 +32,12 @@ public:
         getline(cin, date);
     }
 
-    void display() const override {
+    void display() const override { // Implementing the pure virtual function
         cout << "Event: " << name << " - " << description << " on " << date << endl;
     }
 };
 
+// Base class: Person
 class Person {
 protected:
     string name;
@@ -43,7 +46,7 @@ protected:
 public:
     Person(string n = "", int a = 0) : name(n), age(a) {}
 
-    virtual void input() {
+    virtual void input() { // Virtual function
         cout << "Enter person's name: ";
         getline(cin, name);
         cout << "Enter person's age: ";
@@ -51,13 +54,14 @@ public:
         cin.ignore();  // Clear the newline character from the input buffer
     }
 
-    virtual void display() const {
+    virtual void display() const { // Virtual function
         cout << "Person: " << name << ", Age: " << age << endl;
     }
 
     virtual ~Person() = default; // Virtual destructor
 };
 
+// Derived class: Character, which is both a Person and HistoricalEntity
 class Character : public Person, public HistoricalEntity {
 protected:
     string role;
@@ -66,19 +70,20 @@ public:
     Character(string n = "", int a = 0, string r = "")
         : Person(n, a), role(r) {}
 
-    void input() override {
+    void input() override { // Implementing the pure virtual function
         Person::input();  // Call the base class input
         cout << "Enter character role: ";
         getline(cin, role);
     }
 
-    void display() const override {
+    void display() const override { // Implementing the pure virtual function
         cout << "Character: " << name << ", Age: " << age << ", Role: " << role << endl;
     }
 
     string getRole() const { return role; } // Getter for role
 };
 
+// Derived class: HistoricalFigure
 class HistoricalFigure : public Character {
 private:
     string significance;
@@ -87,18 +92,19 @@ public:
     HistoricalFigure(string n = "", int a = 0, string r = "", string s = "")
         : Character(n, a, r), significance(s) {}
 
-    void input() override {
+    void input() override { // Implementing the pure virtual function
         Character::input(); // Call the base class input
         cout << "Enter significance of the historical figure: ";
         getline(cin, significance);
     }
 
-    void display() const override {
+    void display() const override { // Implementing the pure virtual function
         cout << "Figure: " << name << ", Age: " << age 
              << ", Role: " << getRole() << ", Significance: " << significance << endl;
     }
 };
 
+// Derived class: Culture
 class Culture : public HistoricalEntity {
 private:
     string name;
@@ -109,7 +115,7 @@ public:
     Culture(string n = "", string t = "", string l = "")
         : name(n), traditions(t), language(l) {}
 
-    void input() override {
+    void input() override { // Implementing the pure virtual function
         cout << "Enter culture name: ";
         getline(cin, name);
         cout << "Enter culture traditions: ";
@@ -118,12 +124,13 @@ public:
         getline(cin, language);
     }
 
-    void display() const override {
+    void display() const override { // Implementing the pure virtual function
         cout << "Culture: " << name << ", Traditions: " << traditions 
              << ", Language: " << language << endl;
     }
 };
 
+// Derived class: GeographicalLocation
 class GeographicalLocation : public HistoricalEntity {
 private:
     string name;
@@ -134,7 +141,7 @@ public:
     GeographicalLocation(string n = "", string c = "", string t = "")
         : name(n), climate(c), terrain(t) {}
 
-    void input() override {
+    void input() override { // Implementing the pure virtual function
         cout << "Enter geographical location name: ";
         getline(cin, name);
         cout << "Enter geographical location climate: ";
@@ -143,15 +150,16 @@ public:
         getline(cin, terrain);
     }
 
-    void display() const override {
+    void display() const override { // Implementing the pure virtual function
         cout << "Location: " << name << ", Climate: " << climate 
              << ", Terrain: " << terrain << endl;
     }
 };
 
+// Class to manage the world and its historical entities
 class World {
 private:
-    vector<HistoricalEntity*> entities;
+    vector<HistoricalEntity*> entities; // Collection of historical entities
 
 public:
     ~World() {
@@ -160,13 +168,13 @@ public:
         }
     }
 
-    void addEntity(HistoricalEntity* entity) {
+    void addEntity(HistoricalEntity* entity) { // Accepts any HistoricalEntity
         entities.push_back(entity);
     }
 
-    void displayEntities() const {
+    void displayEntities() const { // Displays all entities
         for (const auto& entity : entities) {
-            entity->display();
+            entity->display(); // Calls the overridden display function
         }
     }
 };
@@ -182,7 +190,7 @@ int main() {
     for (int i = 0; i < numEvents; ++i) {
         HistoricalEvent* event = new HistoricalEvent();
         cout << "Enter details for historical event " << (i + 1) << ":" << endl;
-        event->input();
+        event->input(); // Call to the overridden input function
         middleEarth.addEntity(event);
     }
 
@@ -192,7 +200,7 @@ int main() {
     for (int i = 0; i < numCharacters; ++i) {
         Character* character = new Character();
         cout << "Enter details for character " << (i + 1) << ":" << endl;
-        character->input();
+        character->input(); // Call to the overridden input function
         middleEarth.addEntity(character);
     }
 
@@ -202,7 +210,7 @@ int main() {
     for (int i = 0; i < numFigures; ++i) {
         HistoricalFigure* figure = new HistoricalFigure();
         cout << "Enter details for historical figure " << (i + 1) << ":" << endl;
-        figure->input();
+        figure->input(); // Call to the overridden input function
         middleEarth.addEntity(figure); 
     }
 
@@ -212,7 +220,7 @@ int main() {
     for (int i = 0; i < numCultures; ++i) {
         Culture* culture = new Culture();
         cout << "Enter details for culture " << (i + 1) << ":" << endl;
-        culture->input();
+        culture->input(); // Call to the overridden input function
         middleEarth.addEntity(culture);
     }
 
@@ -222,13 +230,13 @@ int main() {
     for (int i = 0; i < numLocations; ++i) {
         GeographicalLocation* location = new GeographicalLocation();
         cout << "Enter details for geographical location " << (i + 1) << ":" << endl;
-        location->input();
+        location->input(); // Call to the overridden input function
         middleEarth.addEntity(location);
     }
 
     // Display all information
     cout << "\nEntities:" << endl;
-    middleEarth.displayEntities();
+    middleEarth.displayEntities(); // Calls the display method for each entity
 
     return 0;
 }
