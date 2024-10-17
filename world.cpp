@@ -5,26 +5,18 @@ using namespace std;
 
 class HistoricalEvent {
 private:
-    string name;        // Event name
-    string description; // Event description
-    string date;        // Event date
+    string name;
+    string description;
+    string date;
 
 public:
-    // Constructor
     HistoricalEvent(string n = "", string d = "", string dt = "")
         : name(n), description(d), date(dt) {}
 
-    // Accessor methods (getters)
     string getName() const { return name; }
     string getDescription() const { return description; }
     string getDate() const { return date; }
 
-    // Mutator methods (setters)
-    void setName(string n) { name = n; }
-    void setDescription(string d) { description = d; }
-    void setDate(string dt) { date = dt; }
-
-    // Method to input event details
     void input() {
         cout << "Enter historical event name: ";
         getline(cin, name);
@@ -35,61 +27,74 @@ public:
     }
 };
 
-class Character {
-private:
-    string name; // Character name
-    int age;     // Character age
-    string role; // Character role
+class Person {
+protected:
+    string name;
+    int age;
 
 public:
-    // Constructor
-    Character(string n = "", int a = 0, string r = "")
-        : name(n), age(a), role(r) {}
+    Person(string n = "", int a = 0) : name(n), age(a) {}
 
-    // Accessor methods (getters)
+    virtual void input() {
+        cout << "Enter person's name: ";
+        getline(cin, name);
+        cout << "Enter person's age: ";
+        cin >> age;
+        cin.ignore();  // Clear the newline character from the input buffer
+    }
+
     string getName() const { return name; }
     int getAge() const { return age; }
-    string getRole() const { return role; }
+};
 
-    // Mutator methods (setters)
-    void setName(string n) { name = n; }
-    void setAge(int a) { age = a; }
-    void setRole(string r) { role = r; }
+class Character : public Person {
+private:
+    string role;
 
-    // Method to input character details
-    void input() {
-        cout << "Enter character name: ";
-        getline(cin, name);
-        cout << "Enter character age: ";
-        cin >> age;
-        cin.ignore();  // Clear the newline from the input buffer
+public:
+    Character(string n = "", int a = 0, string r = "")
+        : Person(n, a), role(r) {}
+
+    void input() override {
+        Person::input();  // Call the base class input
         cout << "Enter character role: ";
         getline(cin, role);
     }
+
+    string getRole() const { return role; }
+};
+
+class HistoricalFigure : public Character { // Multilevel inheritance
+private:
+    string significance;
+
+public:
+    HistoricalFigure(string n = "", int a = 0, string r = "", string s = "")
+        : Character(n, a, r), significance(s) {}
+
+    void input() override {
+        Character::input(); // Call the base class input
+        cout << "Enter significance of the historical figure: ";
+        getline(cin, significance);
+    }
+
+    string getSignificance() const { return significance; }
 };
 
 class Culture {
 private:
-    string name;      // Culture name
-    string traditions; // Culture traditions
-    string language;  // Culture language
+    string name;
+    string traditions;
+    string language;
 
 public:
-    // Constructor
     Culture(string n = "", string t = "", string l = "")
         : name(n), traditions(t), language(l) {}
 
-    // Accessor methods (getters)
     string getName() const { return name; }
     string getTraditions() const { return traditions; }
     string getLanguage() const { return language; }
 
-    // Mutator methods (setters)
-    void setName(string n) { name = n; }
-    void setTraditions(string t) { traditions = t; }
-    void setLanguage(string l) { language = l; }
-
-    // Method to input culture details
     void input() {
         cout << "Enter culture name: ";
         getline(cin, name);
@@ -102,26 +107,18 @@ public:
 
 class GeographicalLocation {
 private:
-    string name;   // Location name
-    string climate; // Climate of the location
-    string terrain; // Terrain of the location
+    string name;
+    string climate;
+    string terrain;
 
 public:
-    // Constructor
     GeographicalLocation(string n = "", string c = "", string t = "")
         : name(n), climate(c), terrain(t) {}
 
-    // Accessor methods (getters)
     string getName() const { return name; }
     string getClimate() const { return climate; }
     string getTerrain() const { return terrain; }
 
-    // Mutator methods (setters)
-    void setName(string n) { name = n; }
-    void setClimate(string c) { climate = c; }
-    void setTerrain(string t) { terrain = t; }
-
-    // Method to input location details
     void input() {
         cout << "Enter geographical location name: ";
         getline(cin, name);
@@ -136,6 +133,7 @@ class World {
 private:
     HistoricalEvent* events;
     Character* characters;
+    HistoricalFigure* figures;
     Culture* cultures;
     GeographicalLocation* locations;
 
@@ -143,32 +141,35 @@ private:
     int characterCount = 0;
     int cultureCount = 0;
     int locationCount = 0;
+    int figureCount = 0;
 
     int capacityEvents = 10;  
     int capacityCharacters = 10;
     int capacityCultures = 10;
     int capacityLocations = 10;
+    int capacityFigures = 10;
 
     static int totalEvents;
     static int totalCharacters;
     static int totalCultures;
     static int totalLocations;
+    static int totalFigures;
 
 public:
-    // Constructor
     World() {
         events = new HistoricalEvent[capacityEvents];
         characters = new Character[capacityCharacters];
         cultures = new Culture[capacityCultures];
         locations = new GeographicalLocation[capacityLocations];
+        figures = new HistoricalFigure[capacityFigures];
     }
     
-    // Destructor
     ~World() {
         delete[] events;
         delete[] characters;
         delete[] cultures;
         delete[] locations;
+        delete[] figures;
     }
 
     void addEvent(const HistoricalEvent& e) {
@@ -197,6 +198,20 @@ public:
         }
         characters[characterCount++] = c;
         totalCharacters++;  
+    }
+
+    void addFigure(const HistoricalFigure& f) {
+        if (figureCount == capacityFigures) {
+            capacityFigures *= 2;
+            HistoricalFigure* newFigures = new HistoricalFigure[capacityFigures];
+            for (int i = 0; i < figureCount; ++i) {
+                newFigures[i] = figures[i];
+            }
+            delete[] figures;
+            figures = newFigures;
+        }
+        figures[figureCount++] = f;
+        totalFigures++;
     }
 
     void addCulture(const Culture& c) {
@@ -237,9 +252,18 @@ public:
 
     void displayCharacters() const {
         for (int i = 0; i < characterCount; ++i) {
-            cout << "Character: " << characters[i].getName() << ", Age: " 
-                 << characters[i].getAge() << ", Role: " 
+            cout << "Character: " << characters[i].getName() << ", Age: "
+                 << characters[i].getAge() << ", Role: "
                  << characters[i].getRole() << endl;
+        }
+    }
+
+    void displayFigures() const {
+        for (int i = 0; i < figureCount; ++i) {
+            cout << "Figure: " << figures[i].getName() 
+                 << ", Age: " << figures[i].getAge() 
+                 << ", Role: " << figures[i].getRole() 
+                 << ", Significance: " << figures[i].getSignificance() << endl;
         }
     }
 
@@ -263,18 +287,19 @@ public:
     static int getTotalCharacters() { return totalCharacters; }
     static int getTotalCultures() { return totalCultures; }
     static int getTotalLocations() { return totalLocations; }
+    static int getTotalFigures() { return totalFigures; }
 };
 
-// Initialize static variables
 int World::totalEvents = 0;
 int World::totalCharacters = 0;
 int World::totalCultures = 0;
 int World::totalLocations = 0;
+int World::totalFigures = 0;
 
 int main() {
     World middleEarth;
 
-    int numEvents, numCharacters, numCultures, numLocations;
+    int numEvents, numCharacters, numCultures, numLocations, numFigures;
 
     cout << "Enter the number of historical events: ";
     cin >> numEvents;
@@ -294,6 +319,16 @@ int main() {
         cout << "Enter details for character " << (i + 1) << ":" << endl;
         character.input();
         middleEarth.addCharacter(character);
+    }
+
+    cout << "Enter the number of historical figures: ";
+    cin >> numFigures;
+    cin.ignore(); 
+    for (int i = 0; i < numFigures; ++i) {
+        HistoricalFigure figure;
+        cout << "Enter details for historical figure " << (i + 1) << ":" << endl;
+        figure.input();
+        middleEarth.addFigure(figure); 
     }
 
     cout << "Enter the number of cultures: ";
@@ -316,10 +351,13 @@ int main() {
         middleEarth.addLocation(location);
     }
 
+    // Display all information
     cout << "\nEvents:" << endl;
     middleEarth.displayEvents();
     cout << "\nCharacters:" << endl;
     middleEarth.displayCharacters();
+    cout << "\nHistorical Figures:" << endl;
+    middleEarth.displayFigures(); // Display historical figures
     cout << "\nCultures:" << endl;
     middleEarth.displayCultures();
     cout << "\nLocations:" << endl;
@@ -327,6 +365,7 @@ int main() {
 
     cout << "\nTotal historical events added: " << World::getTotalEvents() << endl;
     cout << "Total characters added: " << World::getTotalCharacters() << endl;
+    cout << "Total historical figures added: " << World::getTotalFigures() << endl;
     cout << "Total cultures added: " << World::getTotalCultures() << endl;
     cout << "Total geographical locations added: " << World::getTotalLocations() << endl;
 
