@@ -40,7 +40,7 @@ public:
         getline(cin, name);
         cout << "Enter historical event description: ";
         getline(cin, description);
-        cout << "Enter historical event date: ";
+        cout << "Enter historical event date (YYYY-MM-DD): ";
         getline(cin, date);
     }
 
@@ -166,6 +166,32 @@ public:
     }
 };
 
+// New Derived Class: HistoricalPlace (Extending the system without modifying existing code)
+class HistoricalPlace : public HistoricalEntity {
+private:
+    string name;
+    string historicalSignificance;
+    string geographicalLocation;
+
+public:
+    HistoricalPlace(string n = "", string hs = "", string gl = "")
+        : name(n), historicalSignificance(hs), geographicalLocation(gl) {}
+
+    void input() override {  // Implementing the input functionality
+        cout << "Enter historical place name: ";
+        getline(cin, name);
+        cout << "Enter historical place significance: ";
+        getline(cin, historicalSignificance);
+        cout << "Enter geographical location of the place: ";
+        getline(cin, geographicalLocation);
+    }
+
+    void display() const override {  // Implementing the display functionality
+        cout << "Place: " << name << ", Historical Significance: " << historicalSignificance 
+             << ", Location: " << geographicalLocation << endl;
+    }
+};
+
 // Class to manage the world and its historical entities
 class World {
 private:
@@ -192,61 +218,77 @@ public:
 int main() {
     World middleEarth;
 
-    int numEvents, numCharacters, numFigures, numCultures, numLocations;
+    int numEvents, numCharacters, numFigures, numCultures, numLocations, numPlaces;
 
+    // Input for Historical Events
     cout << "Enter the number of historical events: ";
     cin >> numEvents;
-    cin.ignore();
+    cin.ignore(); 
     for (int i = 0; i < numEvents; ++i) {
         HistoricalEvent* event = new HistoricalEvent();
         cout << "Enter details for historical event " << (i + 1) << ":" << endl;
-        event->input();  // Call to the overridden input function
+        event->input(); // Call to the overridden input function
         middleEarth.addEntity(event);
     }
 
+    // Input for Characters
     cout << "Enter the number of characters: ";
     cin >> numCharacters;
-    cin.ignore();
+    cin.ignore(); 
     for (int i = 0; i < numCharacters; ++i) {
         Character* character = new Character();
         cout << "Enter details for character " << (i + 1) << ":" << endl;
-        character->input();  // Call to the overridden input function
+        character->input(); // Call to the overridden input function
         middleEarth.addEntity(character);
     }
 
+    // Input for Historical Figures
     cout << "Enter the number of historical figures: ";
     cin >> numFigures;
-    cin.ignore();
+    cin.ignore(); 
     for (int i = 0; i < numFigures; ++i) {
         HistoricalFigure* figure = new HistoricalFigure();
         cout << "Enter details for historical figure " << (i + 1) << ":" << endl;
-        figure->input();  // Call to the overridden input function
+        figure->input(); // Call to the overridden input function
         middleEarth.addEntity(figure); 
     }
 
+    // Input for Cultures
     cout << "Enter the number of cultures: ";
     cin >> numCultures;
-    cin.ignore();
+    cin.ignore(); 
     for (int i = 0; i < numCultures; ++i) {
         Culture* culture = new Culture();
         cout << "Enter details for culture " << (i + 1) << ":" << endl;
-        culture->input();  // Call to the overridden input function
+        culture->input(); // Call to the overridden input function
         middleEarth.addEntity(culture);
     }
 
+    // Input for Geographical Locations
     cout << "Enter the number of geographical locations: ";
     cin >> numLocations;
-    cin.ignore();
+    cin.ignore();  
     for (int i = 0; i < numLocations; ++i) {
         GeographicalLocation* location = new GeographicalLocation();
         cout << "Enter details for geographical location " << (i + 1) << ":" << endl;
-        location->input();  // Call to the overridden input function
+        location->input(); // Call to the overridden input function
         middleEarth.addEntity(location);
     }
 
+    // Input for Historical Places
+    cout << "Enter the number of historical places: ";
+    cin >> numPlaces;
+    cin.ignore();  // To clear the input buffer after the integer input
+    for (int i = 0; i < numPlaces; ++i) {
+        HistoricalPlace* place = new HistoricalPlace();
+        cout << "Enter details for historical place " << (i + 1) << ":" << endl;
+        place->input(); // Call to the overridden input function for HistoricalPlace
+        middleEarth.addEntity(place);
+    }
+
     // Display all information
-    cout << "\nEntities:" << endl;
-    middleEarth.displayEntities();  // Calls the display method for each entity
+    cout << "\nEntities in the World:" << endl;
+    middleEarth.displayEntities(); // Calls the display method for each entity
     
     return 0;
 }
