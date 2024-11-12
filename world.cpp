@@ -237,6 +237,6 @@ int main() {
     // Display all information
     cout << "\nEntities:" << endl;
     middleEarth.displayEntities(); // Calls the display method for each entity
-
+    
     return 0;
 }
