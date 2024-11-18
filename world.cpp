@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -192,23 +193,25 @@ public:
     }
 };
 
-// Class to manage the world and its historical entities
-class World {
+// Interface for managing entities in the World (DIP)
+class IWorld {
+public:
+    virtual void addEntity(shared_ptr<HistoricalEntity> entity) = 0;
+    virtual void displayEntities() const = 0;
+    virtual ~IWorld() = default;
+};
+
+// Concrete implementation of the IWorld interface
+class World : public IWorld {
 private:
-    vector<HistoricalEntity*> entities;  // Collection of historical entities
+    vector<shared_ptr<HistoricalEntity>> entities;  // Collection of historical entities
 
 public:
-    ~World() {
-        for (auto entity : entities) {
-            delete entity;  // Clean up
-        }
-    }
-
-    void addEntity(HistoricalEntity* entity) {  // Accepts any HistoricalEntity
+    void addEntity(shared_ptr<HistoricalEntity> entity) override {
         entities.push_back(entity);
     }
 
-    void displayEntities() const {  // Displays all entities
+    void displayEntities() const override {  // Displays all entities
         for (const auto& entity : entities) {
             entity->display();  // Calls the overridden display function
         }
@@ -216,7 +219,8 @@ public:
 };
 
 int main() {
-    World middleEarth;
+    // Use of dependency inversion: high-level module (World) depends on IWorld abstraction
+    shared_ptr<IWorld> middleEarth = make_shared<World>();
 
     int numEvents, numCharacters, numFigures, numCultures, numLocations, numPlaces;
 
@@ -225,10 +229,10 @@ int main() {
     cin >> numEvents;
     cin.ignore(); 
     for (int i = 0; i < numEvents; ++i) {
-        HistoricalEvent* event = new HistoricalEvent();
+        shared_ptr<HistoricalEvent> event = make_shared<HistoricalEvent>();
         cout << "Enter details for historical event " << (i + 1) << ":" << endl;
         event->input(); // Call to the overridden input function
-        middleEarth.addEntity(event);
+        middleEarth->addEntity(event);
     }
 
     // Input for Characters
@@ -236,10 +240,10 @@ int main() {
     cin >> numCharacters;
     cin.ignore(); 
     for (int i = 0; i < numCharacters; ++i) {
-        Character* character = new Character();
+        shared_ptr<Character> character = make_shared<Character>();
         cout << "Enter details for character " << (i + 1) << ":" << endl;
         character->input(); // Call to the overridden input function
-        middleEarth.addEntity(character);
+        middleEarth->addEntity(character);
     }
 
     // Input for Historical Figures
@@ -247,10 +251,10 @@ int main() {
     cin >> numFigures;
     cin.ignore(); 
     for (int i = 0; i < numFigures; ++i) {
-        HistoricalFigure* figure = new HistoricalFigure();
+        shared_ptr<HistoricalFigure> figure = make_shared<HistoricalFigure>();
         cout << "Enter details for historical figure " << (i + 1) << ":" << endl;
         figure->input(); // Call to the overridden input function
-        middleEarth.addEntity(figure); 
+        middleEarth->addEntity(figure); 
     }
 
     // Input for Cultures
@@ -258,10 +262,10 @@ int main() {
     cin >> numCultures;
     cin.ignore(); 
     for (int i = 0; i < numCultures; ++i) {
-        Culture* culture = new Culture();
+        shared_ptr<Culture> culture = make_shared<Culture>();
         cout << "Enter details for culture " << (i + 1) << ":" << endl;
         culture->input(); // Call to the overridden input function
-        middleEarth.addEntity(culture);
+        middleEarth->addEntity(culture);
     }
 
     // Input for Geographical Locations
@@ -269,26 +273,26 @@ int main() {
     cin >> numLocations;
     cin.ignore();  
     for (int i = 0; i < numLocations; ++i) {
-        GeographicalLocation* location = new GeographicalLocation();
+        shared_ptr<GeographicalLocation> location = make_shared<GeographicalLocation>();
         cout << "Enter details for geographical location " << (i + 1) << ":" << endl;
         location->input(); // Call to the overridden input function
-        middleEarth.addEntity(location);
+        middleEarth->addEntity(location);
     }
 
     // Input for Historical Places
     cout << "Enter the number of historical places: ";
     cin >> numPlaces;
-    cin.ignore();  // To clear the input buffer after the integer input
+    cin.ignore();
     for (int i = 0; i < numPlaces; ++i) {
-        HistoricalPlace* place = new HistoricalPlace();
+        shared_ptr<HistoricalPlace> place = make_shared<HistoricalPlace>();
         cout << "Enter details for historical place " << (i + 1) << ":" << endl;
         place->input(); // Call to the overridden input function for HistoricalPlace
-        middleEarth.addEntity(place);
+        middleEarth->addEntity(place);
     }
 
     // Display all information
     cout << "\nEntities in the World:" << endl;
-    middleEarth.displayEntities(); // Calls the display method for each entity
+    middleEarth->displayEntities(); // Calls the display method for each entity
     
     return 0;
 }
